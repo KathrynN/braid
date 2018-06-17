@@ -1,0 +1,27 @@
+{
+  "name": "react-youtube-deck",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "3",
+    "react": "^16.3.2",
+    "react-bootstrap": "^0.32.1",
+    "react-dom": "^16.3.2",
+    "react-scripts": "1.1.4",
+    "react-virtualized": "^9.19.1",
+    "react-youtube": "^7.6.0",
+    "react-youtube-player": "^2.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "main": "index.js",
+  "author": "Kathryn",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "1.13.5"
+  }
+}
