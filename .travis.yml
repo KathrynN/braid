@@ -5,6 +5,7 @@ script:
   - npm test
   - npm run build
 deploy:
+  `skip_cleanup: true
   provider: s3
   access_key_id: AKIAIL6PTU3JZN6HBWHQ
   secret_access_key:
