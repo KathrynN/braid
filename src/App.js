@@ -25,15 +25,14 @@ class PlaylistForm extends Component {
 
   retrieve_from_local_storage(key) {
     try {
-        // The problem was here
         const tokens = localStorage.getItem(key);
         if (tokens !== null) {
             return JSON.parse(tokens);
         }
-        return null;
+        return [];
     } catch (e) {
         console.log(e.message);
-        return null;
+        return [];
     }
   }
 
