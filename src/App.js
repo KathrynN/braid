@@ -22,16 +22,28 @@ class App extends Component {
 }
 
 class PlaylistForm extends Component {
+
+  retrieve_from_local_storage(key) {
+    try {
+        // The problem was here
+        const tokens = localStorage.getItem(key);
+        if (tokens !== null) {
+            return JSON.parse(tokens);
+        }
+        return null;
+    } catch (e) {
+        console.log(e.message);
+        return null;
+    }
+  }
+
   constructor() {
     super();
     this.state = {
       new_content: {},
       playlists: [],
       queue: []};
-    const cachedSources = localStorage.getItem("sources");
-    if (cachedSources) {
-      this.state.playlists = JSON.parse(cachedSources);
-    }
+    this.state.playlists = this.retrieve_from_local_storage("sources");
 
   }
 
@@ -43,8 +55,8 @@ class PlaylistForm extends Component {
     this.setState({
       playlists: updated_sources
     });
-    console.log("post remove, sources should be", this.state.playlists);
     localStorage.setItem("sources", JSON.stringify(updated_sources));
+    console.log("post remove, sources should be", this.state.playlists);
   }
 
   add_video_to_list(video_object) {
