@@ -15,4 +15,4 @@ deploy:
   acl: public_read
   on:
     repo: KathrynN/braid
-    branch: master 
+    branch: ["master", "travis"]
