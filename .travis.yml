@@ -1,3 +1,17 @@
 language: node_js
 node_js:
-  - "stable"
+- stable
+script:
+  - npm test
+  - npm run build
+deploy:
+  provider: s3
+  access_key_id: AKIAIL6PTU3JZN6HBWHQ
+  secret_access_key:
+    secure: ebFK0GlC2WsCgi2PnqRMBddWKW/wxZVMKHU/XVKDm0kP3F16DL0gLCVJzsdFi3rECffQiHSSCwH1gFznJuFmY2/Crv0imA3B7lPzyVoDFdaYgG2StJsd85laAKCJjRvFe8phjGpn7wgMEAI35mGtnJhUBdFp/6sOgXMKIzfy/mj/0VAIRYBj1GKjTVLkTwZzc4KY56Tqd190fXq3o8OVxd5NEvjh1Cbfa+VndJt2DHEKAqbuJ3X3A/8WR1uVb7L5uibZrwU3JVTXmgRzgBkHjsD/dj4s1gfUWGlDDKmY9v6FjXaOgydNxZ3F0b2D1ZmnZi3R5DFvJwN/ZKdVcjtcPQ/CnS6xg4+xnL6FDIMBHWGpWpslsnbUpBGcw8C6if8WiFUWYV3nv/jYeS6rJvz5ziDkswCy9K56QxTgmFswMystx39w5ZEA5FNKekDz0c+fwDzi0mjdmMcEtqo84xewYT0VA97FuJDdRjVU7F1n/zBJCC2SHiUJO5l1ZiXgvncKlncxgeAlis+wxkw9+UPjmzecbYWKaLwAOm5PTrIRSSBtu19xWXPE8/M+kExy4xtqzUFh/OSLYzlqxNb1qtoZTb/+smJ1bzCfawQJSy7hoerWVO7LK/6mvaHp91cE723lOWYqgNz5QgmA+nhnydSAeshqG6y1Kmu6Mhauz/2DwOE=
+  bucket: braid-youtube
+  local-dir: ./build/
+  acl: ''
+  on:
+    repo: KathrynN/braid
+    branch: master 
