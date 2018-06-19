@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Media } from 'react-bootstrap';
+import { Media, Glyphicon } from 'react-bootstrap';
 import {retrieve_from_local_storage} from './utilities';
 
 export default class VideoThumbnail extends Component {
@@ -16,8 +16,8 @@ export default class VideoThumbnail extends Component {
         alt = {video_object.video_title}
         key = {video_object.video_id}
         onClick={() => {
-            this.props.add_video_to_list(video_object);
-            this.props.on_click(video_object);
+            video_object.add_to_queue(video_object);
+            video_object.on_click(video_object);
           }
         }
       />
@@ -39,12 +39,14 @@ export default class VideoThumbnail extends Component {
   }
 
   generate_watched_link(video_object) {
-    return this.is_video_watched(video_object.video_id)?
-    (<a onClick={() => {video_object.remove_from_watched(video_object.video_id)}}>
-    remove from watched
-    </a>)
-    : (<a onClick={() => {this.props.add_to_watched(video_object.video_id)}}>
-    add to watched
-    </a>)
+    return this.is_video_watched(video_object.video_id)
+    ? (<Glyphicon
+        glyph="eye-close"
+        onClick={() => {video_object.remove_from_watched(video_object.video_id)}}
+      />)
+    : (<Glyphicon
+        glyph="eye-open"
+        onClick={() => {video_object.add_to_watched(video_object.video_id)}}
+      />)
   }
 }
