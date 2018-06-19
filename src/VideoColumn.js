@@ -6,8 +6,9 @@ import {
   generateJSONRequestForChannel,
   generateJSONRequestForUserRecentUploads
 } from "./utilities";
-import { Row, Col } from "react-bootstrap";
 import { List } from "react-virtualized";
+import FlexView from 'react-flexview';
+
 
 export default class VideoColumn extends Component {
   videos_to_request = 50;
@@ -19,7 +20,6 @@ export default class VideoColumn extends Component {
   }
 
   render() {
-    let column_size = this.props.column_size ? this.props.column_size : 6;
 
     const content = this.convert_list_of_ids_to_thumbnails(
       this.state.content,
@@ -30,7 +30,7 @@ export default class VideoColumn extends Component {
     const videos = this.state.content.length > 0 ?
         <List
           width={500}
-          height={500}
+          height={window.innerHeight - 275}
           rowCount={this.state.content.length}
           rowHeight={200}
           rowRenderer={({ key, index, isScrolling, isVisible, style }) =>
@@ -47,8 +47,7 @@ export default class VideoColumn extends Component {
         : <div></div>
 
     return (
-      <Col sm={column_size}>
-        <div>
+        <FlexView column>
           <h2>{this.find_column_title()}</h2>
           <a
             onClick={() => {
@@ -58,8 +57,7 @@ export default class VideoColumn extends Component {
             x
           </a>
           {videos}
-        </div>
-      </Col>
+        </FlexView>
     );
   }
 
@@ -111,38 +109,29 @@ export default class VideoColumn extends Component {
   }
 
   map_json_response_to_video_object(data_items, add_video_to_list, on_click) {
-    let result;
+    let result = {
+      video_title: data_items.snippet.title,
+      video_thumbnail: data_items.snippet.thumbnails.medium,
+      video_description: data_items.snippet.description,
+      add_video_to_list: add_video_to_list,
+      on_click: on_click,
+      type: "video"
+    };
     if (this.props.source_info.content_type === "channel") {
-      result = {
-        video_id: data_items.id.videoId,
-        video_title: data_items.snippet.title,
-        video_thumbnail: data_items.snippet.thumbnails.medium.url,
-        add_video_to_list: add_video_to_list,
-        on_click: on_click,
-        type: "video"
-      };
+      result.video_id = data_items.id.videoId;
     } else {
-      result = {
-        video_id: data_items.contentDetails.videoId,
-        video_title: data_items.snippet.title,
-        video_thumbnail: data_items.snippet.thumbnails.medium.url,
-        add_video_to_list: add_video_to_list,
-        on_click: on_click,
-        type: "video"
-      };
+      result.video_id = data_items.contentDetails.videoId;
     }
     return result;
   }
 
   take_video_object_return_thumbnail(video_object) {
     return (
-      <Row key={video_object.video_id}>
         <VideoThumbnail
           video_object={video_object}
           add_video_to_list={video_object.add_video_to_list}
           on_click={video_object.on_click}
         />
-      </Row>
     );
   }
 
