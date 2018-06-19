@@ -111,27 +111,18 @@ export default class VideoColumn extends Component {
   }
 
   map_json_response_to_video_object(data_items, add_video_to_list, on_click) {
-    let result;
+    let result = {
+      video_title: data_items.snippet.title,
+      video_thumbnail: data_items.snippet.thumbnails.medium,
+      video_description: data_items.snippet.description,
+      add_video_to_list: add_video_to_list,
+      on_click: on_click,
+      type: "video"
+    };
     if (this.props.source_info.content_type === "channel") {
-      result = {
-        video_id: data_items.id.videoId,
-        video_title: data_items.snippet.title,
-        video_thumbnail: data_items.snippet.thumbnails.medium,
-        video_description: data_items.snippet.description,
-        add_video_to_list: add_video_to_list,
-        on_click: on_click,
-        type: "video"
-      };
+      result.video_id = data_items.id.videoId;
     } else {
-      result = {
-        video_id: data_items.contentDetails.videoId,
-        video_title: data_items.snippet.title,
-        video_thumbnail: data_items.snippet.thumbnails.medium,
-        video_description: data_items.snippet.description,
-        add_video_to_list: add_video_to_list,
-        on_click: on_click,
-        type: "video"
-      };
+      result.video_id = data_items.contentDetails.videoId;
     }
     return result;
   }
