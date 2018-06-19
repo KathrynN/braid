@@ -98,7 +98,6 @@ class PlaylistForm extends Component {
     this.setState({
       video_object : video_object,
     });
-    this.openNav();
   }
 
   generateVideoColumns() {
@@ -125,20 +124,8 @@ class PlaylistForm extends Component {
     return videos;
   }
 
-
-  openNav() {
-    let overlayPlayer = document.getElementById("overlay-player");
-    if(overlayPlayer){
-      overlayPlayer.style.width = "100%";
-    }
-  }
-
   closeNav() {
-    let overlayPlayer = document.getElementById("overlay-player");
     this.setState({ video_object : {} })
-    if(overlayPlayer){
-      overlayPlayer.style.width = "0%";
-    }
   }
 
   render() {

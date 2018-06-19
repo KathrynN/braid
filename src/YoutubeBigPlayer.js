@@ -8,7 +8,9 @@ export default class YoutubeBigPlayer extends Component {
     this.escFunction = this.escFunction.bind(this);
   }
 
-  opts = {
+  opts =
+  { height: '1080',
+  width: '1920',
     playerVars: {
       autoplay: 1,
       rel: 0
@@ -29,13 +31,13 @@ export default class YoutubeBigPlayer extends Component {
   }
 
   render() {
-    if(this.props.video_object){
+    if(this.props.video_object !== undefined && this.props.video_object.video_id !== undefined){
       const video_id = this.props.video_object.video_id;
       return <div className="overlay"
         id="overlay-player">
         <a className="closebtn" onClick={() => this.props.closeNav()}>&times;</a>
         <YouTube
-          className="overlay-content"
+          className="overlay-content centered"
           videoId={video_id}
           key={video_id}
           opts={this.opts}

@@ -23,8 +23,13 @@ body {
 
 .overlay-content {
     position: center;
-    height: 75%;
-    width: 75%;
     text-align: center;
     margin-top: 30px;
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
