@@ -35,5 +35,18 @@ body {
 }
 
 .watched {
-  background-color: black;
+  background-color: rgba(0,0,0, 0.4);
+  z-index: 1;
+}
+
+.glyphicon {
+  position: absolute;
+  display: block;
+  float: right;
+  padding-bottom: 15px;
+}
+
+.watched p {
+  color: gray;
+  font-style: italic;
 }

@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import { Media, Glyphicon } from 'react-bootstrap';
 import {retrieve_from_local_storage} from './utilities';
+import FlexView from 'react-flexview';
 
 export default class VideoThumbnail extends Component {
 
   render() {
     const video_object = this.props.video_object;
     const class_name = this.is_video_watched(video_object.video_id)? "watched" : "";
-    return <div className={class_name}>
-    <Media>
+    return <FlexView column>
+    <div>
+    {this.generate_watched_link(video_object)}
+    </div>
+    <div>
+    <Media className={class_name}>
       <Media.Left align="middle">
       <img
         src={video_object.video_thumbnail.url}
@@ -23,7 +28,6 @@ export default class VideoThumbnail extends Component {
       />
       </Media.Left>
       <Media.Body>
-      {this.generate_watched_link(video_object)}
        <Media.Heading>{video_object.video_title}}</Media.Heading>
        <p>
         {video_object.video_description.substring(0, 200)} ...
@@ -31,6 +35,7 @@ export default class VideoThumbnail extends Component {
      </Media.Body>
     </Media>
     </div>
+    </FlexView>
   }
 
   is_video_watched (video_id) {
