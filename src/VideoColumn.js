@@ -8,6 +8,8 @@ import {
 } from "./utilities";
 import { Row, Col } from "react-bootstrap";
 import { List } from "react-virtualized";
+import FlexView from 'react-flexview';
+
 
 export default class VideoColumn extends Component {
   videos_to_request = 50;
@@ -47,8 +49,7 @@ export default class VideoColumn extends Component {
         : <div></div>
 
     return (
-      <Col sm={column_size}>
-        <div>
+        <FlexView column>
           <h2>{this.find_column_title()}</h2>
           <a
             onClick={() => {
@@ -58,8 +59,7 @@ export default class VideoColumn extends Component {
             x
           </a>
           {videos}
-        </div>
-      </Col>
+        </FlexView>
     );
   }
 

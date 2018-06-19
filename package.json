@@ -8,6 +8,7 @@
     "react": "^16.3.2",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.3.2",
+    "react-flexview": "^3.0.2",
     "react-scripts": "1.1.4",
     "react-virtualized": "^9.19.1",
     "react-youtube": "^7.6.0",
