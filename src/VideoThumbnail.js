@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { Image } from 'react-bootstrap';
+import { Media } from 'react-bootstrap';
 
 export default class VideoThumbnail extends Component {
 
   render() {
     const video_object = this.props.video_object;
-    return <div>
-      <Image thumbnail
-        src={video_object.video_thumbnail}
+    return <Media>
+      <Media.Left align="middle">
+      <img
+        src={video_object.video_thumbnail.url}
+        width={video_object.video_thumbnail.width/2}
         alt = {video_object.video_title}
         key = {video_object.video_id}
         onClick={() => {
@@ -16,7 +18,14 @@ export default class VideoThumbnail extends Component {
           }
         }
       />
-    </div>
+      </Media.Left>
+      <Media.Body>
+       <Media.Heading>{video_object.video_title}}</Media.Heading>
+       <p>
+        {video_object.video_description.substring(0, 200)} ...
+       </p>
+     </Media.Body>
+    </Media>
   }
 
 

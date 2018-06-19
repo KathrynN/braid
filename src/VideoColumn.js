@@ -116,7 +116,8 @@ export default class VideoColumn extends Component {
       result = {
         video_id: data_items.id.videoId,
         video_title: data_items.snippet.title,
-        video_thumbnail: data_items.snippet.thumbnails.medium.url,
+        video_thumbnail: data_items.snippet.thumbnails.medium,
+        video_description: data_items.snippet.description,
         add_video_to_list: add_video_to_list,
         on_click: on_click,
         type: "video"
@@ -125,7 +126,8 @@ export default class VideoColumn extends Component {
       result = {
         video_id: data_items.contentDetails.videoId,
         video_title: data_items.snippet.title,
-        video_thumbnail: data_items.snippet.thumbnails.medium.url,
+        video_thumbnail: data_items.snippet.thumbnails.medium,
+        video_description: data_items.snippet.description,
         add_video_to_list: add_video_to_list,
         on_click: on_click,
         type: "video"
@@ -136,13 +138,11 @@ export default class VideoColumn extends Component {
 
   take_video_object_return_thumbnail(video_object) {
     return (
-      <Row key={video_object.video_id}>
         <VideoThumbnail
           video_object={video_object}
           add_video_to_list={video_object.add_video_to_list}
           on_click={video_object.on_click}
         />
-      </Row>
     );
   }
 
