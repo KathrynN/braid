@@ -20,6 +20,7 @@ export default class VideoThumbnail extends Component {
       />
       </Media.Left>
       <Media.Body>
+      <a onClick={() => {this.props.add_to_watched(video_object.video_id)}}>add to watched</a>
        <Media.Heading>{video_object.video_title}}</Media.Heading>
        <p>
         {video_object.video_description.substring(0, 200)} ...

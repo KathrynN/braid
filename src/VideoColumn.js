@@ -20,11 +20,12 @@ export default class VideoColumn extends Component {
   }
 
   render() {
-
+    console.log("props", this.props);
     const content = this.convert_list_of_ids_to_thumbnails(
       this.state.content,
       this.props.add_to_queue,
-      this.props.on_click
+      this.props.on_click,
+      this.props.add_to_watched
     );
 
     const videos = this.state.content.length > 0 ?
@@ -108,12 +109,13 @@ export default class VideoColumn extends Component {
       : this.state.content[0].snippet.channelTitle;
   }
 
-  map_json_response_to_video_object(data_items, add_video_to_list, on_click) {
+  map_json_response_to_video_object(data_items, add_video_to_list, on_click, add_to_watched) {
     let result = {
       video_title: data_items.snippet.title,
       video_thumbnail: data_items.snippet.thumbnails.medium,
       video_description: data_items.snippet.description,
       add_video_to_list: add_video_to_list,
+      add_to_watched: add_to_watched,
       on_click: on_click,
       type: "video"
     };
@@ -131,6 +133,7 @@ export default class VideoColumn extends Component {
           video_object={video_object}
           add_video_to_list={video_object.add_video_to_list}
           on_click={video_object.on_click}
+          add_to_watched={video_object.add_to_watched}
         />
     );
   }
@@ -138,7 +141,8 @@ export default class VideoColumn extends Component {
   convert_list_of_ids_to_thumbnails(
     playlist_items,
     add_video_to_list,
-    on_click
+    on_click,
+    add_to_watched
   ) {
     if (playlist_items[0] === undefined) {
       return;
@@ -147,7 +151,8 @@ export default class VideoColumn extends Component {
       let video_object = this.map_json_response_to_video_object(
         json_for_me,
         add_video_to_list,
-        on_click
+        on_click,
+        add_to_watched
       );
       return this.take_video_object_return_thumbnail(video_object);
     });
