@@ -37,13 +37,23 @@ class PlaylistForm extends Component {
   }
 
   add_to_watched (content_id, video_id) {
-
     let watched_videos = this.state.watched.slice();
     watched_videos.push(video_id);
     this.setState({
       watched: watched_videos
     });
     localStorage.setItem("watched", JSON.stringify(uniq(watched_videos)));
+  }
+
+  remove_from_watched (video_id) {
+    let watched_videos = this.state.watched.slice();
+    let update_watched_videos = watched_videos.filter(function(e) {
+      return e!==video_id;
+    });
+    this.setState({
+      watched: update_watched_videos
+    });
+    localStorage.setItem("watched", JSON.stringify(uniq(update_watched_videos)));
   }
 
   remove_subscription (source_id) {
@@ -55,7 +65,6 @@ class PlaylistForm extends Component {
       playlists: updated_sources
     });
     localStorage.setItem("sources", JSON.stringify(updated_sources));
-    console.log("post remove, sources should be", this.state.playlists);
   }
 
   add_video_to_list(video_object) {
@@ -120,6 +129,9 @@ class PlaylistForm extends Component {
                 this.add_to_watched(source_info.content_id, x);
               }
             }
+            remove_from_watched={(x) => {
+              this.remove_from_watched(x);
+            }}
           />
         );
       }

@@ -23,7 +23,7 @@ export default class VideoThumbnail extends Component {
       />
       </Media.Left>
       <Media.Body>
-      <a onClick={() => {this.props.add_to_watched(video_object.video_id)}}>add to watched</a>
+      {this.generate_watched_link(video_object)}
        <Media.Heading>{video_object.video_title}}</Media.Heading>
        <p>
         {video_object.video_description.substring(0, 200)} ...
@@ -38,5 +38,13 @@ export default class VideoThumbnail extends Component {
     return watched_videos.includes(video_id);
   }
 
-
+  generate_watched_link(video_object) {
+    return this.is_video_watched(video_object.video_id)?
+    (<a onClick={() => {video_object.remove_from_watched(video_object.video_id)}}>
+    remove from watched
+    </a>)
+    : (<a onClick={() => {this.props.add_to_watched(video_object.video_id)}}>
+    add to watched
+    </a>)
+  }
 }

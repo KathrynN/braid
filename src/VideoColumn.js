@@ -25,7 +25,8 @@ export default class VideoColumn extends Component {
       this.state.content,
       this.props.add_to_queue,
       this.props.on_click,
-      this.props.add_to_watched
+      this.props.add_to_watched,
+      this.props.remove_from_watched
     );
 
     const videos = this.state.content.length > 0 ?
@@ -115,7 +116,8 @@ export default class VideoColumn extends Component {
       video_thumbnail: data_items.snippet.thumbnails.medium,
       video_description: data_items.snippet.description,
       add_video_to_list: add_video_to_list,
-      add_to_watched: add_to_watched,
+      add_to_watched: this.props.add_to_watched,
+      remove_from_watched: this.props.remove_from_watched,
       on_click: on_click,
       type: "video"
     };
