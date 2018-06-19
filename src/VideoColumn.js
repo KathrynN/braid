@@ -32,7 +32,7 @@ export default class VideoColumn extends Component {
     const videos = this.state.content.length > 0 ?
         <List
           width={500}
-          height={500}
+          height={window.innerHeight - 275}
           rowCount={this.state.content.length}
           rowHeight={200}
           rowRenderer={({ key, index, isScrolling, isVisible, style }) =>
