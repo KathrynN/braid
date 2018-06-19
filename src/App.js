@@ -4,7 +4,7 @@ import VideoColumn from './VideoColumn';
 import YoutubeBigPlayer from './YoutubeBigPlayer';
 import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import {uniq} from './utilities';
+import {uniq, retrieve_from_local_storage} from './utilities';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import 'react-flexview/lib/flexView.css';
 import FlexView from 'react-flexview';
@@ -25,19 +25,6 @@ class App extends Component {
 
 class PlaylistForm extends Component {
 
-  retrieve_from_local_storage(key) {
-    try {
-        const tokens = localStorage.getItem(key);
-        if (tokens !== null) {
-            return JSON.parse(tokens);
-        }
-        return [];
-    } catch (e) {
-        console.log(e.message);
-        return [];
-    }
-  }
-
   constructor() {
     super();
     this.state = {
@@ -45,22 +32,18 @@ class PlaylistForm extends Component {
       playlists: [],
       queue: [],
       watched: []};
-    this.state.playlists = this.retrieve_from_local_storage("sources");
-    this.state.watched = this.retrieve_from_local_storage("watched");
+    this.state.playlists = retrieve_from_local_storage("sources");
+    this.state.watched = retrieve_from_local_storage("watched");
   }
 
   add_to_watched (content_id, video_id) {
-    console.log("you've watched ", video_id, "from channel", content_id);
 
     let watched_videos = this.state.watched.slice();
-    watched_videos.push({
-      content_id: content_id,
-      video: video_id
-    });
+    watched_videos.push(video_id);
     this.setState({
       watched: watched_videos
     });
-    localStorage.setItem("watched", JSON.stringify(watched_videos));
+    localStorage.setItem("watched", JSON.stringify(uniq(watched_videos)));
   }
 
   remove_subscription (source_id) {

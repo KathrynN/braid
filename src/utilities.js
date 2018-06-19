@@ -40,4 +40,17 @@ function generateJSONRequestForUserRecentUploads(username, request_size) {
       });
 }
 
-export {generateJSONRequestForChannel, generateJSONRequestForPlaylist, generateJSONRequestForUserRecentUploads, uniq, getDataFromYoutube}
+function retrieve_from_local_storage(key) {
+  try {
+      const tokens = localStorage.getItem(key);
+      if (tokens !== null) {
+          return JSON.parse(tokens);
+      }
+      return [];
+  } catch (e) {
+      console.log(e.message);
+      return [];
+  }
+}
+
+export {retrieve_from_local_storage, generateJSONRequestForChannel, generateJSONRequestForPlaylist, generateJSONRequestForUserRecentUploads, uniq, getDataFromYoutube}

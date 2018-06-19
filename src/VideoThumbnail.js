@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Media } from 'react-bootstrap';
+import {retrieve_from_local_storage} from './utilities';
 
 export default class VideoThumbnail extends Component {
 
   render() {
     const video_object = this.props.video_object;
-    return <Media>
+    const class_name = this.is_video_watched(video_object.video_id)? "watched" : "";
+    return <div className={class_name}>
+    <Media>
       <Media.Left align="middle">
       <img
         src={video_object.video_thumbnail.url}
@@ -27,6 +30,12 @@ export default class VideoThumbnail extends Component {
        </p>
      </Media.Body>
     </Media>
+    </div>
+  }
+
+  is_video_watched (video_id) {
+    const watched_videos = retrieve_from_local_storage("watched");
+    return watched_videos.includes(video_id);
   }
 
 
