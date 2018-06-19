@@ -2,11 +2,30 @@ import React, { Component } from 'react';
 import YouTube from 'react-youtube';
 
 export default class YoutubeBigPlayer extends Component {
+
+  constructor(props){
+    super(props);
+    this.escFunction = this.escFunction.bind(this);
+  }
+
   opts = {
     playerVars: {
       autoplay: 1,
       rel: 0
     }
+  }
+
+  escFunction(event) {
+    if(event.keyCode === 27) {
+      this.props.closeNav()
+    }
+  }
+
+  componentDidMount(){
+    document.addEventListener("keydown", this.escFunction, false);
+  }
+  componentWillUnmount(){
+    document.removeEventListener("keydown", this.escFunction, false);
   }
 
   render() {

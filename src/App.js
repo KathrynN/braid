@@ -135,6 +135,7 @@ class PlaylistForm extends Component {
 
   closeNav() {
     let overlayPlayer = document.getElementById("overlay-player");
+    this.setState({ video_object : {} })
     if(overlayPlayer){
       overlayPlayer.style.width = "0%";
     }
@@ -142,7 +143,7 @@ class PlaylistForm extends Component {
 
   render() {
     return <div>
-    <YoutubeBigPlayer closeNav={this.closeNav} video_object={this.state.video_object}/>
+    <YoutubeBigPlayer closeNav={() => this.closeNav()} video_object={this.state.video_object}/>
       <input type="text" ref="inputContentLink" onChange={this.update.bind(this)}/>
       <Button onClick={
         async ()=>{
