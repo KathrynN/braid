@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import VideoColumn from './VideoColumn';
 import YoutubeBigPlayer from './YoutubeBigPlayer';
-import { Button, Grid, Row } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import {uniq} from './utilities';
 import 'bootstrap/dist/css/bootstrap-theme.css';

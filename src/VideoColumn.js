@@ -6,7 +6,6 @@ import {
   generateJSONRequestForChannel,
   generateJSONRequestForUserRecentUploads
 } from "./utilities";
-import { Row, Col } from "react-bootstrap";
 import { List } from "react-virtualized";
 import FlexView from 'react-flexview';
 
@@ -21,7 +20,6 @@ export default class VideoColumn extends Component {
   }
 
   render() {
-    let column_size = this.props.column_size ? this.props.column_size : 6;
 
     const content = this.convert_list_of_ids_to_thumbnails(
       this.state.content,
