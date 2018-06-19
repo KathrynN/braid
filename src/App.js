@@ -4,7 +4,7 @@ import VideoColumn from './VideoColumn';
 import YoutubeBigPlayer from './YoutubeBigPlayer';
 import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import {uniq} from './utilities';
+import {uniq, retrieve_from_local_storage} from './utilities';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import 'react-flexview/lib/flexView.css';
 import FlexView from 'react-flexview';
@@ -25,27 +25,35 @@ class App extends Component {
 
 class PlaylistForm extends Component {
 
-  retrieve_from_local_storage(key) {
-    try {
-        const tokens = localStorage.getItem(key);
-        if (tokens !== null) {
-            return JSON.parse(tokens);
-        }
-        return [];
-    } catch (e) {
-        console.log(e.message);
-        return [];
-    }
-  }
-
   constructor() {
     super();
     this.state = {
       new_content: {},
       playlists: [],
-      queue: []};
-    this.state.playlists = this.retrieve_from_local_storage("sources");
+      queue: [],
+      watched: []};
+    this.state.playlists = retrieve_from_local_storage("sources");
+    this.state.watched = retrieve_from_local_storage("watched");
+  }
 
+  add_to_watched (content_id, video_id) {
+    let watched_videos = this.state.watched.slice();
+    watched_videos.push(video_id);
+    this.setState({
+      watched: watched_videos
+    });
+    localStorage.setItem("watched", JSON.stringify(uniq(watched_videos)));
+  }
+
+  remove_from_watched (video_id) {
+    let watched_videos = this.state.watched.slice();
+    let update_watched_videos = watched_videos.filter(function(e) {
+      return e!==video_id;
+    });
+    this.setState({
+      watched: update_watched_videos
+    });
+    localStorage.setItem("watched", JSON.stringify(uniq(update_watched_videos)));
   }
 
   remove_subscription (source_id) {
@@ -57,7 +65,6 @@ class PlaylistForm extends Component {
       playlists: updated_sources
     });
     localStorage.setItem("sources", JSON.stringify(updated_sources));
-    console.log("post remove, sources should be", this.state.playlists);
   }
 
   add_video_to_list(video_object) {
@@ -98,7 +105,6 @@ class PlaylistForm extends Component {
     this.setState({
       video_object : video_object,
     });
-    this.openNav();
   }
 
   generateVideoColumns() {
@@ -111,34 +117,29 @@ class PlaylistForm extends Component {
           <VideoColumn
             key={source_info.content_id}
             source_info={source_info}
-            content_id={this.state.playlists[videoID].content_id}
+            content_id={source_info.content_id}
             column_size={column_size}
             on_click={(x) => {this.play_on_click(x)}}
             remove_subscription={(x) => this.remove_subscription(x)}
             add_to_queue={(x) => {
-              this.add_video_to_list(x);
+                this.add_video_to_list(x);
+              }
             }
-          }
+            add_to_watched={(x) => {
+                this.add_to_watched(source_info.content_id, x);
+              }
+            }
+            remove_from_watched={(x) => {
+              this.remove_from_watched(x);
+            }}
           />
         );
       }
     return videos;
   }
 
-
-  openNav() {
-    let overlayPlayer = document.getElementById("overlay-player");
-    if(overlayPlayer){
-      overlayPlayer.style.width = "100%";
-    }
-  }
-
   closeNav() {
-    let overlayPlayer = document.getElementById("overlay-player");
     this.setState({ video_object : {} })
-    if(overlayPlayer){
-      overlayPlayer.style.width = "0%";
-    }
   }
 
   render() {
@@ -155,9 +156,9 @@ class PlaylistForm extends Component {
             });
             const sources = uniq(list_of_sources);
             this.setState({playlists: sources});
-
             this.setState({new_content : {}});
             this.state.playlists.push();
+            console.log("adding to localStorage", sources);
             localStorage.setItem("sources", JSON.stringify(sources));
           }
 

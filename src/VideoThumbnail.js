@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
-import { Media } from 'react-bootstrap';
+import { Media, Glyphicon } from 'react-bootstrap';
+import {retrieve_from_local_storage} from './utilities';
+import FlexView from 'react-flexview';
 
 export default class VideoThumbnail extends Component {
 
   render() {
     const video_object = this.props.video_object;
-    return <Media>
+    const class_name = this.is_video_watched(video_object.video_id)? "watched" : "";
+    return <FlexView column>
+    <div>
+    {this.generate_watched_link(video_object)}
+    </div>
+    <div>
+    <Media className={class_name}>
       <Media.Left align="middle">
       <img
         src={video_object.video_thumbnail.url}
@@ -13,8 +21,8 @@ export default class VideoThumbnail extends Component {
         alt = {video_object.video_title}
         key = {video_object.video_id}
         onClick={() => {
-            this.props.add_video_to_list(video_object);
-            this.props.on_click(video_object);
+            video_object.add_to_queue(video_object);
+            video_object.on_click(video_object);
           }
         }
       />
@@ -26,7 +34,24 @@ export default class VideoThumbnail extends Component {
        </p>
      </Media.Body>
     </Media>
+    </div>
+    </FlexView>
   }
 
+  is_video_watched (video_id) {
+    const watched_videos = retrieve_from_local_storage("watched");
+    return watched_videos.includes(video_id);
+  }
 
+  generate_watched_link(video_object) {
+    return this.is_video_watched(video_object.video_id)
+    ? (<Glyphicon
+        glyph="eye-close"
+        onClick={() => {video_object.remove_from_watched(video_object.video_id)}}
+      />)
+    : (<Glyphicon
+        glyph="eye-open"
+        onClick={() => {video_object.add_to_watched(video_object.video_id)}}
+      />)
+  }
 }

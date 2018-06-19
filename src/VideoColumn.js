@@ -20,11 +20,8 @@ export default class VideoColumn extends Component {
   }
 
   render() {
-
-    const content = this.convert_list_of_ids_to_thumbnails(
-      this.state.content,
-      this.props.add_to_queue,
-      this.props.on_click
+    const contentVideoComponents = this.convert_list_of_ids_to_thumbnails(
+      this.state.content
     );
 
     const videos = this.state.content.length > 0 ?
@@ -40,7 +37,7 @@ export default class VideoColumn extends Component {
               isScrolling,
               isVisible,
               style,
-              content
+              contentVideoComponents
             })
           }
         />
@@ -67,11 +64,11 @@ export default class VideoColumn extends Component {
     isScrolling, // The List is currently being scrolled
     isVisible, // This row is visible within the List (eg it is not an overscanned row)
     style, // Style object to be applied to row (to position it)
-    content
+    contentVideoComponents
   }) {
     return (
       <div key={key} style={style}>
-        {content[index]}
+        {contentVideoComponents[index]}
       </div>
     );
   }
@@ -108,13 +105,15 @@ export default class VideoColumn extends Component {
       : this.state.content[0].snippet.channelTitle;
   }
 
-  map_json_response_to_video_object(data_items, add_video_to_list, on_click) {
+  map_json_response_to_video_object(data_items) {
     let result = {
       video_title: data_items.snippet.title,
       video_thumbnail: data_items.snippet.thumbnails.medium,
       video_description: data_items.snippet.description,
-      add_video_to_list: add_video_to_list,
-      on_click: on_click,
+      add_to_queue: this.props.add_to_queue,
+      add_to_watched: this.props.add_to_watched,
+      remove_from_watched: this.props.remove_from_watched,
+      on_click: this.props.on_click,
       type: "video"
     };
     if (this.props.source_info.content_type === "channel") {
@@ -129,25 +128,19 @@ export default class VideoColumn extends Component {
     return (
         <VideoThumbnail
           video_object={video_object}
-          add_video_to_list={video_object.add_video_to_list}
-          on_click={video_object.on_click}
         />
     );
   }
 
   convert_list_of_ids_to_thumbnails(
-    playlist_items,
-    add_video_to_list,
-    on_click
+    playlist_items
   ) {
     if (playlist_items[0] === undefined) {
       return;
     }
     return playlist_items.map(json_for_me => {
       let video_object = this.map_json_response_to_video_object(
-        json_for_me,
-        add_video_to_list,
-        on_click
+        json_for_me
       );
       return this.take_video_object_return_thumbnail(video_object);
     });

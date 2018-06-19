@@ -23,8 +23,30 @@ body {
 
 .overlay-content {
     position: center;
-    height: 75%;
-    width: 75%;
     text-align: center;
     margin-top: 30px;
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.watched {
+  background-color: rgba(0,0,0, 0.4);
+  z-index: 1;
+}
+
+.glyphicon {
+  position: absolute;
+  display: block;
+  float: right;
+  padding-bottom: 15px;
+}
+
+.watched p {
+  color: gray;
+  font-style: italic;
 }
