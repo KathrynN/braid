@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import VideoThumbnail from "./VideoThumbnail";
 import {
   getDataFromYoutube,
+  is_video_watched,
+  retrieve_from_local_storage,
   generateJSONRequestForPlaylist,
   generateJSONRequestForChannel,
   generateJSONRequestForUserRecentUploads
@@ -20,28 +22,34 @@ export default class VideoColumn extends Component {
   }
 
   render() {
-    const contentVideoComponents = this.convert_list_of_ids_to_thumbnails(
-      this.state.content
-    );
-
-    const videos = this.state.content.length > 0 ?
-        <List
-          width={500}
-          height={window.innerHeight - 275}
-          rowCount={this.state.content.length}
-          rowHeight={200}
-          rowRenderer={({ key, index, isScrolling, isVisible, style }) =>
-            this.rowRenderer({
-              key,
-              index,
-              isScrolling,
-              isVisible,
-              style,
-              contentVideoComponents
-            })
-          }
-        />
-        : <div></div>
+    let videos;
+    if (this.state.content.length > 0){
+      let content = this.state.content;
+      if(retrieve_from_local_storage("hide_watched") === true) {
+        content = content.filter(e => {
+          return !is_video_watched(this.get_video_id(e));
+        })
+      }
+      const contentVideoComponents = this.convert_list_of_ids_to_thumbnails(content);
+      videos = <List
+            width={500}
+            height={window.innerHeight - 275}
+            rowCount={content.length}
+            rowHeight={200}
+            rowRenderer={({ key, index, isScrolling, isVisible, style }) =>
+              this.rowRenderer({
+                key,
+                index,
+                isScrolling,
+                isVisible,
+                style,
+                contentVideoComponents
+              })
+            }
+          />
+    } else {
+      videos = <div></div>
+    }
 
     return (
         <FlexView column>
@@ -116,12 +124,17 @@ export default class VideoColumn extends Component {
       on_click: this.props.on_click,
       type: "video"
     };
-    if (this.props.source_info.content_type === "channel") {
-      result.video_id = data_items.id.videoId;
-    } else {
-      result.video_id = data_items.contentDetails.videoId;
-    }
+    result.video_id = this.get_video_id(data_items);
+    result.watched = is_video_watched(result.video_id);
     return result;
+  }
+
+  get_video_id(json_data) {
+    if (this.props.source_info.content_type === "channel") {
+      return json_data.id.videoId;
+    } else {
+      return json_data.contentDetails.videoId;
+    }
   }
 
   take_video_object_return_thumbnail(video_object) {
