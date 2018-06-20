@@ -9,8 +9,7 @@ export default class YoutubeBigPlayer extends Component {
   }
 
   opts =
-  { height: '1080',
-  width: '1920',
+  {
     playerVars: {
       autoplay: 1,
       rel: 0
@@ -38,6 +37,7 @@ export default class YoutubeBigPlayer extends Component {
         <a className="closebtn" onClick={() => this.props.closeNav()}>&times;</a>
         <YouTube
           className="overlay-content centered"
+          id="big_youtube_player"
           videoId={video_id}
           key={video_id}
           opts={this.opts}
