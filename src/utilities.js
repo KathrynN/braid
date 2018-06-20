@@ -59,3 +59,4 @@ function is_video_watched (video_id) {
 }
 
 export {is_video_watched, retrieve_from_local_storage, generateJSONRequestForChannel, generateJSONRequestForPlaylist, generateJSONRequestForUserRecentUploads, uniq, getDataFromYoutube}
+
