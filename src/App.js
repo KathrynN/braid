@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import VideoColumn from './VideoColumn';
 import YoutubeBigPlayer from './YoutubeBigPlayer';
-import { Button } from 'react-bootstrap';
+import { Button, Glyphicon } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import {uniq, retrieve_from_local_storage} from './utilities';
 import 'bootstrap/dist/css/bootstrap-theme.css';
@@ -11,11 +11,31 @@ import FlexView from 'react-flexview';
 
 class App extends Component {
 
+  generate_hide_watched_glyphicon() {
+    return retrieve_from_local_storage("hide_watched") === true
+    ? (<Glyphicon
+        glyph="eye-open"
+        onClick={() => {this.setHideWatched(false)}}
+      />)
+    : (<Glyphicon
+        onClick={() => {this.setHideWatched(true)}}
+        glyph="eye-close"
+      />)
+  }
+
+  setHideWatched(value){
+    this.setState({
+      hide_watched: value
+    });
+    localStorage.setItem("hide_watched", JSON.stringify(value));
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Braid</h1>
+          {this.generate_hide_watched_glyphicon()}
         </header>
         <PlaylistForm></PlaylistForm>
       </div>

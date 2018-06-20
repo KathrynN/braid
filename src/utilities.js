@@ -53,4 +53,10 @@ function retrieve_from_local_storage(key) {
   }
 }
 
-export {retrieve_from_local_storage, generateJSONRequestForChannel, generateJSONRequestForPlaylist, generateJSONRequestForUserRecentUploads, uniq, getDataFromYoutube}
+function is_video_watched (video_id) {
+  const watched_videos = retrieve_from_local_storage("watched");
+  return watched_videos.includes(video_id);
+}
+
+export {is_video_watched, retrieve_from_local_storage, generateJSONRequestForChannel, generateJSONRequestForPlaylist, generateJSONRequestForUserRecentUploads, uniq, getDataFromYoutube}
+
