@@ -21,3 +21,8 @@
 .App-intro {
   font-size: large;
 }
+
+#big_youtube_player {
+  width: 85vw;
+  height: calc(85vw/1.777777778);
+}
