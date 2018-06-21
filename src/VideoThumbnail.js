@@ -15,6 +15,8 @@ export default class VideoThumbnail extends Component {
     <FlexView>
       <Image
         src={video_object.video_thumbnail.url}
+        width={700}
+        height={100}
         alt = {video_object.video_title}
         key = {video_object.video_id}
         onClick={() => {

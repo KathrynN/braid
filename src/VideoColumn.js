@@ -86,20 +86,29 @@ export default class VideoColumn extends Component {
       getDataFromYoutube(
         generateJSONRequestForChannel(this.props.content_id, this.videos_to_request)
       ).then(data => {
-        this.setState({ content: data.items });
+        this.setState({
+           content: data.items,
+           nextPageToken: data.nextPageToken
+         })
       });
     } else if (source_info.content_type === "user") {
       generateJSONRequestForUserRecentUploads(this.props.content_id, this.videos_to_request).then(
         json_request =>
           getDataFromYoutube(json_request, this.videos_to_request).then(data =>
-            this.setState({ content: data.items })
+            this.setState({
+               content: data.items,
+               nextPageToken: data.nextPageToken
+             })
           )
       );
     } else if (source_info.content_type === "playlist") {
       getDataFromYoutube(
         generateJSONRequestForPlaylist(this.props.content_id, this.videos_to_request)
       ).then(data => {
-        this.setState({ content: data.items });
+        this.setState({
+           content: data.items,
+           nextPageToken: data.nextPageToken
+         });
       });
     }
   }
