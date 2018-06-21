@@ -26,3 +26,25 @@
   width: 85vw;
   height: calc(85vw/1.777777778);
 }
+
+
+.watched p {
+  color: gray;
+  font-style: italic;
+}
+
+.videothumbnail {
+  padding-right: 1em;
+  margin: 0 0 2em 1em;
+}
+
+.videothumbnail h5 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.videothumbnail img{
+  width: 17.7778rem;
+  height: 10rem;
+  margin-right: 0.5em;
+}
