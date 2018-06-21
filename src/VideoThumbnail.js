@@ -7,7 +7,7 @@ export default class VideoThumbnail extends Component {
   render() {
     const video_object = this.props.video_object;
     const class_name = video_object.watched? "watched" : "";
-    return <FlexView column >
+    return <FlexView column className={class_name}>
     <div>
     {this.generate_watched_link(video_object)}
     </div>
@@ -15,8 +15,6 @@ export default class VideoThumbnail extends Component {
     <FlexView>
       <Image
         src={video_object.video_thumbnail.url}
-        width={video_object.video_thumbnail.width}
-        height={video_object.video_thumbnail.height}
         alt = {video_object.video_title}
         key = {video_object.video_id}
         onClick={() => {

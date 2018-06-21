@@ -46,24 +46,3 @@ body {
   padding-bottom: 15px;
   padding-right: 15px;
 }
-
-.watched p {
-  color: gray;
-  font-style: italic;
-}
-
-.videothumbnail {
-  padding-right: 1em;
-  margin: 0 0 2em 1em;
-}
-
-.videothumbnail h5 {
-  margin-top: 0px;
-  margin-bottom: 5px;
-}
-
-.videothumbnail img{
-  width: 10.66em;
-  height: 6em;
-  margin-right: 5px;
-}
