@@ -133,9 +133,8 @@ class PlaylistForm extends Component {
       const column_size = 12 / this.state.playlists.length ;
       for(let videoID in this.state.playlists) {
         let source_info = this.state.playlists[videoID];
-        videos.push(
+        videos.push(<div key={source_info.content_id}>
           <VideoColumn
-            key={source_info.content_id}
             source_info={source_info}
             content_id={source_info.content_id}
             column_size={column_size}
@@ -153,6 +152,7 @@ class PlaylistForm extends Component {
               this.remove_from_watched(x);
             }}
           />
+          </div>
         );
       }
     return videos;
@@ -165,7 +165,7 @@ class PlaylistForm extends Component {
   render() {
     return <div>
     <YoutubeBigPlayer closeNav={() => this.closeNav()} video_object={this.state.video_object}/>
-      <input type="text" ref="inputContentLink" onChange={this.update.bind(this)}/>
+      <input className="new_content" type="text" ref="inputContentLink" onChange={this.update.bind(this)}/>
       <Button onClick={
         async ()=>{
           if(Object.keys(this.state.new_content).length !== 0){

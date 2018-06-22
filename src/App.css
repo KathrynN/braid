@@ -2,19 +2,21 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
 .App-header {
   background-color: #222;
-  height: 100px;
+  height: 70px;
+  position: fixed;
+  width: 100%;
   padding: 20px;
   color: white;
 }
 
+.new_content {
+  margin-top: 75px;
+}
+
 .App-title {
+  margin-top: 0;
   font-size: 1.5em;
 }
 
@@ -27,6 +29,9 @@
   height: calc(85vw/1.777777778);
 }
 
+p {
+  font-size: 12px;
+}
 
 .watched p {
   color: gray;
@@ -44,7 +49,7 @@
 
 .videothumbnail {
   padding-right: 1em;
-  margin: 0 0 2em 1em;
+  margin: 0 0.5em 2em 1em;
   border-bottom: rgb(6, 39, 91) solid 0.05rem;
 }
 
