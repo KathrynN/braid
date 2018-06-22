@@ -165,7 +165,7 @@ class PlaylistForm extends Component {
   render() {
     return <div>
     <YoutubeBigPlayer closeNav={() => this.closeNav()} video_object={this.state.video_object}/>
-      <input type="text" ref="inputContentLink" onChange={this.update.bind(this)}/>
+      <input className="new_content" type="text" ref="inputContentLink" onChange={this.update.bind(this)}/>
       <Button onClick={
         async ()=>{
           if(Object.keys(this.state.new_content).length !== 0){
