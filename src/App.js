@@ -133,7 +133,7 @@ class PlaylistForm extends Component {
       const column_size = 12 / this.state.playlists.length ;
       for(let videoID in this.state.playlists) {
         let source_info = this.state.playlists[videoID];
-        videos.push(
+        videos.push(<div>
           <VideoColumn
             key={source_info.content_id}
             source_info={source_info}
@@ -153,6 +153,7 @@ class PlaylistForm extends Component {
               this.remove_from_watched(x);
             }}
           />
+          </div>
         );
       }
     return videos;
