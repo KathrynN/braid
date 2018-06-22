@@ -7,33 +7,32 @@ export default class VideoThumbnail extends Component {
   render() {
     const video_object = this.props.video_object;
     const class_name = video_object.watched? "watched" : "";
-    return <FlexView column className={class_name}>
+    return <div className="videothumbnail">
+    <FlexView column style={{ height: 175 }}>
     <div>
     {this.generate_watched_link(video_object)}
     </div>
-    <div>
-    <FlexView>
-      <Image
-        src={video_object.video_thumbnail.url}
-        width={700}
-        height={100}
-        alt = {video_object.video_title}
-        key = {video_object.video_id}
-        onClick={() => {
-            video_object.add_to_queue(video_object);
-            video_object.on_click(video_object);
+    <div className={class_name}>
+      <FlexView shrink height={135}>
+        <Image
+          src={video_object.video_thumbnail.url}
+          alt = {video_object.video_title}
+          key = {video_object.video_id}
+          onClick={() => {
+              video_object.add_to_queue(video_object);
+              video_object.on_click(video_object);
+            }
           }
-        }
-      />
-      <FlexView column>
-       <h5>{video_object.video_title}</h5>
-       <p>
-        {video_object.video_description.substring(0, 200)} ...
-       </p>
-       </FlexView>
-    </FlexView>
+        />
+        <FlexView column>
+         <h5>{video_object.video_title}</h5>
+         <p>
+          {video_object.video_description.substring(0, 200)} ...
+         </p>
+         </FlexView>
+      </FlexView>
     </div>
-    </FlexView>
+    </FlexView></div>
   }
 
   generate_watched_link(video_object) {

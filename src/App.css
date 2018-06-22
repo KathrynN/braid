@@ -36,13 +36,23 @@
 .videothumbnail {
   padding-right: 1em;
   margin: 0 0 2em 1em;
+  border: black solid;
+}
+
+.videothumbnail .watched {
+    background-color: rgba(0,0,0, 0.4);
+}
+
+.videothumbnail p {
+  overflow:hidden;
 }
 
 .videothumbnail h5 {
   margin-top: 0;
-  margin-bottom: 5px;
 }
 
 .videothumbnail img{
-  margin-right: 0.5em;
+  height: 125px;
+  margin-bottom: 10px;
+  margin-right: 5px;
 }

@@ -36,7 +36,7 @@ export default class VideoColumn extends Component {
             width={500}
             height={window.innerHeight - 275}
             rowCount={content.length}
-            rowHeight={150}
+            rowHeight={250}
             rowRenderer={({ key, index, isScrolling, isVisible, style }) =>
               this.rowRenderer({
                 key,
@@ -75,12 +75,13 @@ export default class VideoColumn extends Component {
     style, // Style object to be applied to row (to position it)
     contentVideoComponents
   }) {
-    console.log()
+    // let class_name = contentVideoComponents[index].props.video_object.watched? "watched" : "";
+    // class_name+=" videothumbnail"
     if((contentVideoComponents.length - index) < 5 && this.can_request_more) {
       this.getMoreVideos();
     }
     return (
-      <div key={key} style={style} className="videothumbnail">
+      <div key={key} style={style}>
         {contentVideoComponents[index]}
       </div>
     );
@@ -88,7 +89,6 @@ export default class VideoColumn extends Component {
 
   getMoreVideos(){
     this.can_request_more = false;
-    console.log("YOUTUBE!!!!")
     const token = this.state.nextPageToken;
     this.getListOfContent(this.props.source_info, token);
   }
@@ -111,21 +111,26 @@ export default class VideoColumn extends Component {
     } else if (source_info.content_type === "user") {
       generateJSONRequestForUserRecentUploads(this.props.content_id, this.videos_to_request).then(
         json_request =>
-          getDataFromYoutube(json_request, this.videos_to_request).then(data =>
+          getDataFromYoutube(json_request+source_token_request, this.videos_to_request).then(data => {
+            let content_of_column = this.state.content.slice().concat(data.items);
             this.setState({
-               content: data.items,
+               content: content_of_column,
                nextPageToken: data.nextPageToken
              })
+             this.can_request_more=true;
+           }
           )
       );
     } else if (source_info.content_type === "playlist") {
       getDataFromYoutube(
         generateJSONRequestForPlaylist(this.props.content_id, this.videos_to_request)
       ).then(data => {
+        let content_of_column = this.state.content.slice().concat(data.items);
         this.setState({
-           content: data.items,
+           content: content_of_column,
            nextPageToken: data.nextPageToken
-         });
+         })
+         this.can_request_more=true;
       });
     }
   }
