@@ -29,12 +29,6 @@ export default class YoutubeBigPlayer extends Component {
     document.removeEventListener("keydown", this.escFunction, false);
   }
 
-  onPlayerStateChange(event) {
-     if(event.data === 0) {
-         alert('done');
-     }
- }
-
   render() {
     if(this.props.video_object !== undefined && this.props.video_object.video_id !== undefined){
       const video_id = this.props.video_object.video_id;
@@ -49,9 +43,13 @@ export default class YoutubeBigPlayer extends Component {
           key={video_id}
           opts={this.opts}
           allowFullScreen="allowFullScreen"
-          onStateChange={() =>
-            this.props.video_object.add_to_watched(video_id)
+          onStateChange={(event) => {
+               if(event.data === 0) {
+                 this.props.video_object.add_to_watched(video_id)
+                 this.props.closeNav()
+               }
           }
+        }
 
         />
       </div>
