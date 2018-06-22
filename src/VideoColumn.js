@@ -36,7 +36,7 @@ export default class VideoColumn extends Component {
             width={500}
             height={window.innerHeight - 275}
             rowCount={content.length}
-            rowHeight={165}
+            rowHeight={150}
             rowRenderer={({ key, index, isScrolling, isVisible, style }) =>
               this.rowRenderer({
                 key,

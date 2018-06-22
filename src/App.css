@@ -33,10 +33,19 @@
   font-style: italic;
 }
 
+
+.glyphicon {
+  float: right;
+}
+
+.glyphicon-eye-close {
+  color: whitesmoke;
+}
+
 .videothumbnail {
   padding-right: 1em;
   margin: 0 0 2em 1em;
-  border: rgba(0,0,0, 0.4) solid 0.05rem;
+  border-bottom: rgb(6, 39, 91) solid 0.05rem;
 }
 
 .watched {
