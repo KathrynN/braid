@@ -34,7 +34,7 @@ export default class VideoColumn extends Component {
       const contentVideoComponents = this.convert_list_of_ids_to_thumbnails(content);
       videos = <List
             width={500}
-            height={window.innerHeight - 275}
+            height={window.innerHeight - 205}
             rowCount={content.length}
             rowHeight={150}
             rowRenderer={({ key, index, isScrolling, isVisible, style }) =>
