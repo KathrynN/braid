@@ -36,10 +36,10 @@
 .videothumbnail {
   padding-right: 1em;
   margin: 0 0 2em 1em;
-  border: black solid;
+  border: rgba(0,0,0, 0.4) solid 0.05rem;
 }
 
-.videothumbnail .watched {
+.watched {
     background-color: rgba(0,0,0, 0.4);
 }
 

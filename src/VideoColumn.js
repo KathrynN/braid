@@ -36,7 +36,7 @@ export default class VideoColumn extends Component {
             width={500}
             height={window.innerHeight - 275}
             rowCount={content.length}
-            rowHeight={250}
+            rowHeight={165}
             rowRenderer={({ key, index, isScrolling, isVisible, style }) =>
               this.rowRenderer({
                 key,
@@ -75,8 +75,6 @@ export default class VideoColumn extends Component {
     style, // Style object to be applied to row (to position it)
     contentVideoComponents
   }) {
-    // let class_name = contentVideoComponents[index].props.video_object.watched? "watched" : "";
-    // class_name+=" videothumbnail"
     if((contentVideoComponents.length - index) < 5 && this.can_request_more) {
       this.getMoreVideos();
     }

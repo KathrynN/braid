@@ -6,13 +6,14 @@ export default class VideoThumbnail extends Component {
 
   render() {
     const video_object = this.props.video_object;
-    const class_name = video_object.watched? "watched" : "";
-    return <div className="videothumbnail">
-    <FlexView column style={{ height: 175 }}>
+    let class_name = video_object.watched? "watched" : "";
+    class_name+=" videothumbnail";
+    return <div className={class_name}>
+    <FlexView column>
     <div>
     {this.generate_watched_link(video_object)}
     </div>
-    <div className={class_name}>
+    <div>
       <FlexView shrink height={135}>
         <Image
           src={video_object.video_thumbnail.url}
