@@ -33,18 +33,35 @@
   font-style: italic;
 }
 
+
+.glyphicon {
+  float: right;
+}
+
+.glyphicon-eye-close {
+  color: whitesmoke;
+}
+
 .videothumbnail {
   padding-right: 1em;
   margin: 0 0 2em 1em;
+  border-bottom: rgb(6, 39, 91) solid 0.05rem;
+}
+
+.watched {
+    background-color: rgba(0,0,0, 0.4);
+}
+
+.videothumbnail p {
+  overflow:hidden;
 }
 
 .videothumbnail h5 {
   margin-top: 0;
-  margin-bottom: 5px;
 }
 
 .videothumbnail img{
-  width: 17.7778rem;
-  height: 10rem;
-  margin-right: 0.5em;
+  height: 125px;
+  margin-bottom: 10px;
+  margin-right: 5px;
 }

@@ -33,16 +33,3 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
-.watched {
-  background-color: rgba(0,0,0, 0.4);
-  z-index: 1;
-}
-
-.glyphicon {
-  position: absolute;
-  display: block;
-  float: right;
-  padding-bottom: 15px;
-  padding-right: 15px;
-}
