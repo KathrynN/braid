@@ -27,6 +27,9 @@
   height: calc(85vw/1.777777778);
 }
 
+p {
+  font-size: 12px;
+}
 
 .watched p {
   color: gray;
