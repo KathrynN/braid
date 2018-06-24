@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+body {
+  position: absolute;
+}
+
 .dark {
   background-color: #142634;
   color: #7E8889;
@@ -23,10 +27,6 @@
 .App-title {
   margin-top: 0;
   font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
 }
 
 #big_youtube_player {
@@ -57,7 +57,7 @@ p {
 }
 
 .dark .glyphicon {
-  color: palevioletred
+  color: firebrick;
 }
 
 .glyphicon-eye-close {
@@ -94,12 +94,4 @@ p {
 
 .clickable {
   cursor: pointer;
-}
-
-.switch_to_light {
-  color: orange;
-}
-
-.switch_to_dark {
-  color: lightgrey;
 }

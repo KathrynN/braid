@@ -32,7 +32,7 @@ function generateJSONRequestForUserRecentUploads(username, request_size) {
   const PART = "contentDetails";
   var url = `${API}part=${PART}&forUsername=${username}&key=${API_KEY}`;
   return getDataFromYoutube(url).then(function(fulfilled) {
-    if (fulfilled.items.lenth !== 0) {
+    if (fulfilled.items.length !== 0) {
       const uploadPlaylistId =
         fulfilled.items[0].contentDetails.relatedPlaylists.uploads;
       return generateJSONRequestForPlaylist(uploadPlaylistId, request_size);
