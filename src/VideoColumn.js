@@ -34,7 +34,7 @@ export default class VideoColumn extends Component {
         <List
           width={500}
           height={window.innerHeight - 205}
-          rowCount={content.length}
+          rowCount={contentVideoComponents.length}
           rowHeight={150}
           rowRenderer={({ key, index, isScrolling, isVisible, style }) =>
             this.rowRenderer({
@@ -49,7 +49,6 @@ export default class VideoColumn extends Component {
           onRowsRendered={
             ({ stopIndex }) =>{
             if (content.length - stopIndex < 5 && this.can_request_more) {
-              console.log("GETTING MORE VIDEOS")
               this.getMoreVideos();
             }}
           }
