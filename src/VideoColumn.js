@@ -83,7 +83,8 @@ export default class VideoColumn extends Component {
   }
 
   mark_all_as_watched(){
-    this.props.add_all_to_watched(this.state.content.map(x=> x.snippet.resourceId.videoId));
+    this.props.add_all_to_watched(this.state.content.map(x=>x.snippet.resourceId.videoId));
+    // this.state.content.map(x=> this.props.add_to_watched(x.snippet.resourceId.videoId));
   }
 
   rowRenderer({

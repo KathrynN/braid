@@ -94,18 +94,27 @@ class PlaylistForm extends Component {
     let watched_videos = this.state.watched.slice();
     watched_videos.push(video_id);
     this.setState({
-      watched: watched_videos
+      watched: uniq(watched_videos)
     });
+    console.log(video_id)
+    localStorage.setItem(
+      "watched",
+      JSON.stringify(uniq(watched_videos))
+    );
   }
 
+
+
   add_all_to_watched(video_ids) {
-    console.log(video_ids)
     let watched_videos = this.state.watched.slice();
     watched_videos = watched_videos.concat(video_ids);
-    console.log(watched_videos);
     this.setState({
-      watched: watched_videos
+      watched: uniq(watched_videos)
     });
+    localStorage.setItem(
+      "watched",
+      JSON.stringify(uniq(watched_videos))
+    );
   }
 
   remove_from_watched(video_id) {
