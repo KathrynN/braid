@@ -33,7 +33,7 @@ export default class VideoColumn extends Component {
       videos = (
         <List
           width={500}
-          height={window.innerHeight - 205}
+          height={window.innerHeight - 181}
           rowCount={contentVideoComponents.length}
           rowHeight={150}
           rowRenderer={({ key, index, isScrolling, isVisible, style }) =>
