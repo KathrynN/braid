@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import VideoThumbnail from "./VideoThumbnail";
+import { Glyphicon } from "react-bootstrap";
 import {
   getDataFromYoutube,
   is_video_watched,
@@ -25,11 +26,7 @@ export default class VideoColumn extends Component {
     let videos;
     if (this.state.content.length > 0) {
       let content = this.state.content;
-      if (retrieve_from_local_storage("hide_watched") === true) {
-        content = content.filter(e => {
-          return !is_video_watched(this.get_video_id(e));
-        });
-      }
+
       const contentVideoComponents = this.convert_list_of_ids_to_thumbnails(
         content
       );
@@ -49,6 +46,13 @@ export default class VideoColumn extends Component {
               contentVideoComponents
             })
           }
+          onRowsRendered={
+            ({ stopIndex }) =>{
+            if (content.length - stopIndex < 5 && this.can_request_more) {
+              console.log("GETTING MORE VIDEOS")
+              this.getMoreVideos();
+            }}
+          }
         />
       );
     } else {
@@ -58,16 +62,29 @@ export default class VideoColumn extends Component {
     return (
       <FlexView column>
         <h2>{this.find_column_title()}</h2>
-        <a
+        <FlexView>
+        <Glyphicon
+          glyph="remove"
+          className="clickable"
           onClick={() => {
             this.props.remove_subscription(this.props.content_id);
           }}
-        >
-          x
-        </a>
+        />
+        <Glyphicon
+          glyph="eject"
+          className="clickable"
+          onClick={() => {
+            this.mark_all_as_watched();
+          }}
+        />
+        </FlexView>
         {videos}
       </FlexView>
     );
+  }
+
+  mark_all_as_watched(){
+    this.props.add_all_to_watched(this.state.content.map(x=> x.snippet.resourceId.videoId));
   }
 
   rowRenderer({
@@ -78,9 +95,7 @@ export default class VideoColumn extends Component {
     style, // Style object to be applied to row (to position it)
     contentVideoComponents
   }) {
-    if (contentVideoComponents.length - index < 5 && this.can_request_more) {
-      this.getMoreVideos();
-    }
+
     return (
       <div key={key} style={style}>
         {contentVideoComponents[index]}
@@ -192,7 +207,13 @@ export default class VideoColumn extends Component {
     if (playlist_items[0] === undefined) {
       return;
     }
-    return playlist_items.map(json_for_me => {
+    let content = playlist_items;
+    if (retrieve_from_local_storage("hide_watched") === true) {
+      content = content.filter(e => {
+        return !is_video_watched(this.get_video_id(e));
+      });
+    }
+    return content.map(json_for_me => {
       let video_object = this.map_json_response_to_video_object(json_for_me);
       return this.take_video_object_return_thumbnail(video_object);
     });

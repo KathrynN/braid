@@ -96,7 +96,16 @@ class PlaylistForm extends Component {
     this.setState({
       watched: watched_videos
     });
-    localStorage.setItem("watched", JSON.stringify(uniq(watched_videos)));
+  }
+
+  add_all_to_watched(video_ids) {
+    console.log(video_ids)
+    let watched_videos = this.state.watched.slice();
+    watched_videos = watched_videos.concat(video_ids);
+    console.log(watched_videos);
+    this.setState({
+      watched: watched_videos
+    });
   }
 
   remove_from_watched(video_id) {
@@ -208,6 +217,9 @@ class PlaylistForm extends Component {
             }}
             remove_from_watched={x => {
               this.remove_from_watched(x);
+            }}
+            add_all_to_watched={x => {
+              this.add_all_to_watched(x);
             }}
           />
         </div>
