@@ -11,26 +11,23 @@ export default class VideoThumbnail extends Component {
       <div className={class_name}>
         <FlexView column>
           <div>{this.generate_watched_link(video_object)}</div>
-          <div>
+          <div
+          className="clickable"
+          onClick={
+            () => {
+                video_object.add_to_queue(video_object);
+                video_object.on_click(video_object);
+            }
+          }>
             <FlexView shrink height={135}>
               <Image
                 src={video_object.video_thumbnail.url}
                 alt={video_object.video_title}
                 key={video_object.video_id}
-                onClick={() => {
-                  video_object.add_to_queue(video_object);
-                  video_object.on_click(video_object);
-                }}
-                className="clickable"
+                
               />
               <FlexView column>
-                <h5 className="clickable"
-                onClick={
-                  () => {
-                      video_object.add_to_queue(video_object);
-                      video_object.on_click(video_object);
-                  }
-                }>{video_object.video_title}</h5>
+                <h5 >{video_object.video_title}</h5>
                 <p>{video_object.video_description.substring(0, 200)} ...</p>
               </FlexView>
             </FlexView>
