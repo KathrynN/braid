@@ -10,6 +10,15 @@ import "react-flexview/lib/flexView.css";
 import FlexView from "react-flexview";
 
 class App extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      hide_watched: false,
+      dark: true
+    };
+  }
+
   generate_hide_watched_glyphicon() {
     return retrieve_from_local_storage("hide_watched") === true ? (
       <Glyphicon
@@ -28,6 +37,24 @@ class App extends Component {
     );
   }
 
+  generate_dark_mode() {
+    const class_name = this.state.dark? "switch_to_light" : "switch_to_dark";
+    return (<Glyphicon
+      glyph="sunglasses"
+      className={class_name}
+      onClick={() => {
+        this.toggleDarkMode();
+      }}
+      />)
+  }
+
+  toggleDarkMode() {
+    const current_state=this.state.dark;
+    this.setState({
+      dark: !current_state
+    });
+  }
+
   setHideWatched(value) {
     this.setState({
       hide_watched: value
@@ -36,21 +63,23 @@ class App extends Component {
   }
 
   render() {
+    const class_name = this.state.dark? "dark App" : "App";
     return (
-      <div className="App">
+      <div className={class_name}>
         <header className="App-header">
           <h1 className="App-title">Braid</h1>
           {this.generate_hide_watched_glyphicon()}
+          {this.generate_dark_mode()}
         </header>
-        <PlaylistForm />
+        <PlaylistForm/>
       </div>
     );
   }
 }
 
 class PlaylistForm extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       new_content: {},
       playlists: [],
