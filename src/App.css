@@ -96,11 +96,3 @@ p {
 .clickable {
   cursor: pointer;
 }
-
-.switch_to_light {
-  color: orange;
-}
-
-.switch_to_dark {
-  color: lightgrey;
-}
