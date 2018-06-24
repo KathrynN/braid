@@ -21,6 +21,7 @@ export default class VideoThumbnail extends Component {
                   video_object.add_to_queue(video_object);
                   video_object.on_click(video_object);
                 }}
+                className="clickable"
               />
               <FlexView column>
                 <h5>{video_object.video_title}</h5>

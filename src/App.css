@@ -69,3 +69,7 @@ p {
   margin-bottom: 10px;
   margin-right: 5px;
 }
+
+.clickable {
+  cursor: pointer;
+}
