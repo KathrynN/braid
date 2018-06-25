@@ -1,9 +1,18 @@
 .App {
   text-align: center;
+    height: 100%
+}
+
+html {
+  height: 100%
 }
 
 body {
+  height: 100%
+}
 
+#root {
+  height: inherit;
 }
 
 .dark {
@@ -94,9 +103,4 @@ p {
 
 .clickable {
   cursor: pointer;
-}
-
-.video_column_collection {
-  width: 100%;
-  overflow-x: auto;
 }
