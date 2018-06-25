@@ -18,8 +18,19 @@ export default class VideoColumn extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { content: [] };
+    this.state = { content: [], height: 0 };
     this.getListOfContent(props.source_info);
+  }
+
+  componentDidMount() {
+    this.setHeightIntoState();
+    window.addEventListener("resize", () => this.setHeightIntoState())
+  }
+
+  setHeightIntoState() {
+    this.setState({
+      height: window.innerHeight - 200
+    })
   }
 
   render() {
@@ -33,7 +44,7 @@ export default class VideoColumn extends Component {
       videos = (
         <List
           width={500}
-          height={window.innerHeight - 181}
+          height={this.state.height}
           rowCount={contentVideoComponents.length}
           rowHeight={150}
           rowRenderer={({ key, index, isScrolling, isVisible, style }) =>
