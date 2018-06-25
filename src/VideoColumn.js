@@ -12,6 +12,12 @@ import {
 import { List } from "react-virtualized";
 import FlexView from "react-flexview";
 
+const setStateForHeightOfColumns = (self) => {
+  return () => self.setState({
+    height: window.innerHeight - 200
+  })
+}
+
 export default class VideoColumn extends Component {
   videos_to_request = 50;
   can_request_more = true;
@@ -20,17 +26,16 @@ export default class VideoColumn extends Component {
     super(props);
     this.state = { content: [], height: 0 };
     this.getListOfContent(props.source_info);
+    this.renameListener = setStateForHeightOfColumns(this);
+    window.addEventListener("resize", this.renameListener, false);
   }
 
   componentDidMount() {
-    this.setHeightIntoState();
-    window.addEventListener("resize", () => this.setHeightIntoState())
+    this.renameListener();
   }
 
-  setHeightIntoState() {
-    this.setState({
-      height: window.innerHeight - 200
-    })
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.renameListener, false);
   }
 
   render() {
