@@ -12,7 +12,7 @@ import {
 import { List } from "react-virtualized";
 import FlexView from "react-flexview";
 
-const iamafunctionrenameme = (self) => {
+const setStateForHeightOfColumns = (self) => {
   return () => self.setState({
     height: window.innerHeight - 200
   })
@@ -26,7 +26,7 @@ export default class VideoColumn extends Component {
     super(props);
     this.state = { content: [], height: 0 };
     this.getListOfContent(props.source_info);
-    this.renameListener = iamafunctionrenameme(this);
+    this.renameListener = setStateForHeightOfColumns(this);
     window.addEventListener("resize", this.renameListener, false);
   }
 
