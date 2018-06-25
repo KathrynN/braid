@@ -104,3 +104,8 @@ p {
 .clickable {
   cursor: pointer;
 }
+
+.video_column_collection {
+  width: 100%;
+  overflow-x: auto;
+}
