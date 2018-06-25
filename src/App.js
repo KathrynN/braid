@@ -273,7 +273,7 @@ class PlaylistForm extends Component {
           +
         </Button>
         <Queue listOfVideos={this.state.queue} />
-        <FlexView>{this.generateVideoColumns()}</FlexView>
+        <FlexView className="video_column_collection">{this.generateVideoColumns()}</FlexView>
       </div>
     );
   }
