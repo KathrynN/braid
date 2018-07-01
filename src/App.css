@@ -48,6 +48,10 @@ p {
   color: #222;
 }
 
+#warning {
+  color: red;
+}
+
 .dark p {
     color: #7E8889;
 }

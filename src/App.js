@@ -84,7 +84,8 @@ class PlaylistForm extends Component {
       new_content: {},
       playlists: [],
       queue: [],
-      watched: []
+      watched: [],
+      error: ""
     };
     this.state.playlists = retrieve_from_local_storage("sources");
     this.state.watched = retrieve_from_local_storage("watched");
@@ -202,6 +203,17 @@ class PlaylistForm extends Component {
     });
   }
 
+  alert_user(x) {
+    this.setState({
+      error: x
+    })
+    setTimeout(() => {
+        this.setState({
+          error: ""
+        })
+    }, 5000);
+  }
+
   generateVideoColumns() {
     let videos = [];
 
@@ -212,6 +224,9 @@ class PlaylistForm extends Component {
         <div key={source_info.content_id}>
           <VideoColumn
             source_info={source_info}
+            alert_user={x => {
+              this.alert_user(x);
+            }}
             content_id={source_info.content_id}
             column_size={column_size}
             on_click={x => {
@@ -272,6 +287,7 @@ class PlaylistForm extends Component {
         >
           +
         </Button>
+        <p id="warning">{this.state.error}</p>
         <Queue listOfVideos={this.state.queue} />
         <FlexView className="video_column_collection">{this.generateVideoColumns()}</FlexView>
       </div>

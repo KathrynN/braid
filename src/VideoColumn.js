@@ -42,7 +42,6 @@ export default class VideoColumn extends Component {
     let videos;
     if (this.state.content.length > 0) {
       let content = this.state.content;
-
       const contentVideoComponents = this.convert_list_of_ids_to_thumbnails(
         content
       );
@@ -134,12 +133,18 @@ export default class VideoColumn extends Component {
           this.videos_to_request
         ) + source_token_request
       ).then(data => {
+        console.log(data);
+        if (data.error) {
+          this.props.remove_subscription(this.props.content_id);
+          this.props.alert_user("Not a valid channel id");
+      } else {
         let content_of_column = this.state.content.slice().concat(data.items);
         this.setState({
           content: content_of_column,
           nextPageToken: data.nextPageToken
         });
         this.can_request_more = true;
+      }
       });
     } else if (source_info.content_type === "user") {
       generateJSONRequestForUserRecentUploads(
