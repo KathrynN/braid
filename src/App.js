@@ -97,7 +97,6 @@ class PlaylistForm extends Component {
     this.setState({
       watched: uniq(watched_videos)
     });
-    console.log(video_id)
     localStorage.setItem(
       "watched",
       JSON.stringify(uniq(watched_videos))
