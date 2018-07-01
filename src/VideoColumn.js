@@ -138,7 +138,8 @@ export default class VideoColumn extends Component {
           this.props.remove_subscription(this.props.content_id);
           this.props.alert_user("Not a valid channel id");
       } else {
-        let content_of_column = this.state.content.slice().concat(data.items);
+        const video_data = data.items.filter(info => info.id.kind === "youtube#video");
+        let content_of_column = this.state.content.slice().concat(video_data);
         this.setState({
           content: content_of_column,
           nextPageToken: data.nextPageToken
