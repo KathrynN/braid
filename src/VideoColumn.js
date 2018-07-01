@@ -63,7 +63,7 @@ export default class VideoColumn extends Component {
           }
           onRowsRendered={
             ({ stopIndex }) =>{
-            if (content.length - stopIndex < 5 && this.can_request_more) {
+            if (contentVideoComponents.length - stopIndex < 5 && this.can_request_more) {
               this.getMoreVideos();
             }}
           }
@@ -133,7 +133,6 @@ export default class VideoColumn extends Component {
           this.videos_to_request
         ) + source_token_request
       ).then(data => {
-        console.log(data);
         if (data.error) {
           this.props.remove_subscription(this.props.content_id);
           this.props.alert_user("Not a valid channel id");
