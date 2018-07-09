@@ -55,9 +55,16 @@ function retrieve_from_local_storage(key) {
   }
 }
 
-function is_video_watched(video_id) {
+function is_video_watched(content_id, video_id) {
   const watched_videos = retrieve_from_local_storage("watched");
-  return watched_videos.includes(video_id);
+  const watched_videos_by_content = retrieve_from_local_storage("watched_by_content");
+  let is_in_content;
+  if (watched_videos_by_content[content_id] === undefined) {
+    is_in_content = false;
+  } else {
+    is_in_content = watched_videos_by_content[content_id].includes(video_id);
+  }
+  return is_in_content || watched_videos.includes(video_id);
 }
 
 export {

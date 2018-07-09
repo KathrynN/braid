@@ -10,7 +10,6 @@ import "react-flexview/lib/flexView.css";
 import FlexView from "react-flexview";
 
 class App extends Component {
-
   constructor() {
     super();
     this.state = {
@@ -38,18 +37,20 @@ class App extends Component {
   }
 
   generate_dark_mode() {
-    const class_name = this.state.dark? "switch_to_light" : "switch_to_dark";
-    return (<Glyphicon
-      glyph="sunglasses"
-      className={class_name}
-      onClick={() => {
-        this.toggleDarkMode();
-      }}
-      />)
+    const class_name = this.state.dark ? "switch_to_light" : "switch_to_dark";
+    return (
+      <Glyphicon
+        glyph="sunglasses"
+        className={class_name}
+        onClick={() => {
+          this.toggleDarkMode();
+        }}
+      />
+    );
   }
 
   toggleDarkMode() {
-    const current_state=this.state.dark;
+    const current_state = this.state.dark;
     this.setState({
       dark: !current_state
     });
@@ -63,7 +64,7 @@ class App extends Component {
   }
 
   render() {
-    const class_name = this.state.dark? "dark App" : "App";
+    const class_name = this.state.dark ? "dark App" : "App";
     return (
       <div className={class_name}>
         <header className="App-header">
@@ -71,7 +72,7 @@ class App extends Component {
           {this.generate_hide_watched_glyphicon()}
           {this.generate_dark_mode()}
         </header>
-        <PlaylistForm/>
+        <PlaylistForm />
       </div>
     );
   }
@@ -85,50 +86,61 @@ class PlaylistForm extends Component {
       playlists: [],
       queue: [],
       watched: [],
-      error: ""
+      error: "",
+      watched_by_content: {}
     };
     this.state.playlists = retrieve_from_local_storage("sources");
     this.state.watched = retrieve_from_local_storage("watched");
+    this.state.watched_by_content = retrieve_from_local_storage("watched_by_content");
   }
 
   add_to_watched(content_id, video_id) {
-    let watched_videos = this.state.watched.slice();
-    watched_videos.push(video_id);
+    let watched_videos = this.state.watched_by_content;
+    if(watched_videos[content_id] === undefined) {
+      watched_videos[content_id] = []
+    }
+    watched_videos[content_id].push(video_id);
+    watched_videos[content_id] = uniq(watched_videos[content_id])
     this.setState({
-      watched: uniq(watched_videos)
-    });
-    localStorage.setItem(
-      "watched",
-      JSON.stringify(uniq(watched_videos))
-    );
+      watched_by_content: watched_videos
+    })
+    localStorage.setItem("watched_by_content", JSON.stringify(watched_videos));
   }
 
-
-
-  add_all_to_watched(video_ids) {
-    let watched_videos = this.state.watched.slice();
-    watched_videos = watched_videos.concat(video_ids);
-    this.setState({
-      watched: uniq(watched_videos)
-    });
-    localStorage.setItem(
-      "watched",
-      JSON.stringify(uniq(watched_videos))
-    );
+  add_all_to_watched(content_id, video_ids) {
+    video_ids.forEach(x => this.add_to_watched(content_id, x))
   }
 
-  remove_from_watched(video_id) {
-    let watched_videos = this.state.watched.slice();
-    let update_watched_videos = watched_videos.filter(function(e) {
+  remove_from_watched(content_id, video_id) {
+    if(this.state.watched.includes(video_id)){
+      let watched_videos = this.state.watched.slice();
+      let update_watched_videos = watched_videos.filter(function(e) {
+        return e !== video_id;
+      });
+      this.setState({
+        watched: update_watched_videos
+      });
+      localStorage.setItem(
+        "watched",
+        JSON.stringify(uniq(update_watched_videos))
+      );
+    }
+    this.remove_from_watched_new(content_id, video_id);
+  }
+
+  remove_from_watched_new(content_id, video_id) {
+    let watched_videos = this.state.watched_by_content;
+    if(watched_videos[content_id] === undefined) {
+      return;
+    }
+    let update_watched_videos = watched_videos[content_id].filter(function(e) {
       return e !== video_id;
     });
+    watched_videos[content_id] = update_watched_videos;
     this.setState({
-      watched: update_watched_videos
-    });
-    localStorage.setItem(
-      "watched",
-      JSON.stringify(uniq(update_watched_videos))
-    );
+      watched_by_content: watched_videos
+    })
+    localStorage.setItem("watched_by_content", JSON.stringify(watched_videos));
   }
 
   remove_subscription(source_id) {
@@ -205,11 +217,11 @@ class PlaylistForm extends Component {
   alert_user(x) {
     this.setState({
       error: x
-    })
+    });
     setTimeout(() => {
-        this.setState({
-          error: ""
-        })
+      this.setState({
+        error: ""
+      });
     }, 5000);
   }
 
@@ -239,10 +251,10 @@ class PlaylistForm extends Component {
               this.add_to_watched(source_info.content_id, x);
             }}
             remove_from_watched={x => {
-              this.remove_from_watched(x);
+              this.remove_from_watched(source_info.content_id, x);
             }}
             add_all_to_watched={x => {
-              this.add_all_to_watched(x);
+              this.add_all_to_watched(source_info.content_id, x);
             }}
           />
         </div>
@@ -288,7 +300,9 @@ class PlaylistForm extends Component {
         </Button>
         <p id="warning">{this.state.error}</p>
         <Queue listOfVideos={this.state.queue} />
-        <FlexView className="video_column_collection">{this.generateVideoColumns()}</FlexView>
+        <FlexView className="video_column_collection">
+          {this.generateVideoColumns()}
+        </FlexView>
       </div>
     );
   }

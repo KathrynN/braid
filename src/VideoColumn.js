@@ -12,11 +12,12 @@ import {
 import { List } from "react-virtualized";
 import FlexView from "react-flexview";
 
-const setStateForHeightOfColumns = (self) => {
-  return () => self.setState({
-    height: window.innerHeight - 200
-  })
-}
+const setStateForHeightOfColumns = self => {
+  return () =>
+    self.setState({
+      height: window.innerHeight - 200
+    });
+};
 
 export default class VideoColumn extends Component {
   videos_to_request = 50;
@@ -24,7 +25,11 @@ export default class VideoColumn extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { content: [], height: 0 };
+    this.state = {
+      content: [],
+      height: 0,
+      watched: []
+    };
     this.getListOfContent(props.source_info);
     this.renameListener = setStateForHeightOfColumns(this);
     window.addEventListener("resize", this.renameListener, false);
@@ -61,12 +66,14 @@ export default class VideoColumn extends Component {
               contentVideoComponents
             })
           }
-          onRowsRendered={
-            ({ stopIndex }) =>{
-            if (contentVideoComponents.length - stopIndex < 5 && this.can_request_more) {
+          onRowsRendered={({ stopIndex }) => {
+            if (
+              contentVideoComponents.length - stopIndex < 5 &&
+              this.can_request_more
+            ) {
               this.getMoreVideos();
-            }}
-          }
+            }
+          }}
         />
       );
     } else {
@@ -76,30 +83,33 @@ export default class VideoColumn extends Component {
     return (
       <FlexView column>
         <h2>{this.find_column_title()}</h2>
-        <FlexView hAlignContent='right' >
-        <Glyphicon
-          glyph="remove"
-          className="clickable"
-          onClick={() => {
-            this.props.remove_subscription(this.props.content_id);
-          }}
-        />
-        <Glyphicon
-          glyph="eject"
-          className="clickable"
-          onClick={() => {
-            this.mark_all_as_watched();
-          }}
-        />
+        <FlexView hAlignContent="right">
+          <Glyphicon
+            glyph="remove"
+            className="clickable"
+            onClick={() => {
+              this.props.remove_subscription(this.props.content_id);
+            }}
+          />
+          <Glyphicon
+            glyph="eject"
+            className="clickable"
+            onClick={() => {
+              this.mark_all_as_watched();
+            }}
+          />
         </FlexView>
         {videos}
       </FlexView>
     );
   }
 
-  mark_all_as_watched(){
-    this.props.add_all_to_watched(this.state.content.map(x=>x.snippet.resourceId.videoId));
-    }
+  mark_all_as_watched() {
+    this.props.add_all_to_watched(
+      this.state.content.map(x => this.get_video_id(x))
+    );
+
+  }
 
   rowRenderer({
     key, // Unique key within array of rows
@@ -109,7 +119,6 @@ export default class VideoColumn extends Component {
     style, // Style object to be applied to row (to position it)
     contentVideoComponents
   }) {
-
     return (
       <div key={key} style={style}>
         {contentVideoComponents[index]}
@@ -136,15 +145,17 @@ export default class VideoColumn extends Component {
         if (data.error) {
           this.props.remove_subscription(this.props.content_id);
           this.props.alert_user("Not a valid channel id");
-      } else {
-        const video_data = data.items.filter(info => info.id.kind === "youtube#video");
-        let content_of_column = this.state.content.slice().concat(video_data);
-        this.setState({
-          content: content_of_column,
-          nextPageToken: data.nextPageToken
-        });
-        this.can_request_more = true;
-      }
+        } else {
+          const video_data = data.items.filter(
+            info => info.id.kind === "youtube#video"
+          );
+          let content_of_column = this.state.content.slice().concat(video_data);
+          this.setState({
+            content: content_of_column,
+            nextPageToken: data.nextPageToken
+          });
+          this.can_request_more = true;
+        }
       });
     } else if (source_info.content_type === "user") {
       generateJSONRequestForUserRecentUploads(
@@ -207,7 +218,7 @@ export default class VideoColumn extends Component {
       type: "video"
     };
     result.video_id = this.get_video_id(data_items);
-    result.watched = is_video_watched(result.video_id);
+    result.watched = is_video_watched(this.props.content_id, result.video_id);
     return result;
   }
 
@@ -230,7 +241,7 @@ export default class VideoColumn extends Component {
     let content = playlist_items;
     if (retrieve_from_local_storage("hide_watched") === true) {
       content = content.filter(e => {
-        return !is_video_watched(this.get_video_id(e));
+        return !is_video_watched(this.props.content_id, this.get_video_id(e));
       });
     }
     return content.map(json_for_me => {
