@@ -4,7 +4,7 @@ import VideoColumn from "./VideoColumn";
 import YoutubeBigPlayer from "./YoutubeBigPlayer";
 import { Button, Glyphicon } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
-import { uniq, retrieve_from_local_storage } from "./utilities";
+import { uniq, retrieve_from_local_storage, retrieve_object_from_local_storage } from "./utilities";
 import "bootstrap/dist/css/bootstrap-theme.css";
 import "react-flexview/lib/flexView.css";
 import FlexView from "react-flexview";
@@ -91,7 +91,7 @@ class PlaylistForm extends Component {
     };
     this.state.playlists = retrieve_from_local_storage("sources");
     this.state.watched = retrieve_from_local_storage("watched");
-    this.state.watched_by_content = retrieve_from_local_storage("watched_by_content");
+    this.state.watched_by_content = retrieve_object_from_local_storage("watched_by_content");
   }
 
   add_to_watched(content_id, video_id) {
