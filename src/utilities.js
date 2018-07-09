@@ -59,6 +59,10 @@ function retrieve_object_from_local_storage(key) {
   try {
     const tokens = localStorage.getItem(key);
     if (tokens !== null) {
+      const object_to_return = JSON.parse(tokens);
+      if (object_to_return.length === 0){
+        return {};
+      }
       return JSON.parse(tokens);
     }
     return {};
