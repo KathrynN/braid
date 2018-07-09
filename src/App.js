@@ -108,14 +108,7 @@ class PlaylistForm extends Component {
   }
 
   add_all_to_watched(content_id, video_ids) {
-    // TODO : use new storage, not old.  Make it work e.g. update components.  Atm doesn't bother
-    let watched = this.state.watched_by_content;
-    let watched_videos = watched[content_id];
-    watched_videos = watched_videos.concat(video_ids);
-    watched[content_id] = uniq(watched_videos);
-    this.setState({
-      watched_by_content: watched
-    });
+    video_ids.forEach(x => this.add_to_watched(content_id, x))
   }
 
   remove_from_watched(content_id, video_id) {
