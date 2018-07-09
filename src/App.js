@@ -95,41 +95,19 @@ class PlaylistForm extends Component {
   }
 
   add_to_watched(content_id, video_id) {
-    let watched_videos = this.state.watched.slice();
-    watched_videos.push(video_id);
-    this.setState({
-      watched: uniq(watched_videos)
-    });
-    localStorage.setItem("watched", JSON.stringify(uniq(watched_videos)));
-    this.add_to_watched_new(content_id, video_id);
-  }
-
-  add_to_watched_new(content_id, video_id) {
     let watched_videos = this.state.watched_by_content;
     if(watched_videos[content_id] === undefined) {
       watched_videos[content_id] = []
     }
     watched_videos[content_id].push(video_id);
     watched_videos[content_id] = uniq(watched_videos[content_id])
-    localStorage.setItem("watched_by_content", JSON.stringify(watched_videos));
-  }
-
-  remove_from_watched_new(content_id, video_id) {
-    let watched_videos = this.state.watched_by_content;
-    if(watched_videos[content_id] === undefined) {
-      return;
-    }
-    let update_watched_videos = watched_videos[content_id].filter(function(e) {
-      return e !== video_id;
-    });
-    watched_videos[content_id] = update_watched_videos;
     this.setState({
       watched_by_content: watched_videos
     })
     localStorage.setItem("watched_by_content", JSON.stringify(watched_videos));
   }
 
-  add_all_to_watched(video_ids) {
+  add_all_to_watched(content_id, video_ids) {
     let watched_videos = this.state.watched.slice();
     watched_videos = watched_videos.concat(video_ids);
     this.setState({
@@ -150,6 +128,21 @@ class PlaylistForm extends Component {
       JSON.stringify(uniq(update_watched_videos))
     );
     this.remove_from_watched_new(content_id, video_id);
+  }
+
+  remove_from_watched_new(content_id, video_id) {
+    let watched_videos = this.state.watched_by_content;
+    if(watched_videos[content_id] === undefined) {
+      return;
+    }
+    let update_watched_videos = watched_videos[content_id].filter(function(e) {
+      return e !== video_id;
+    });
+    watched_videos[content_id] = update_watched_videos;
+    this.setState({
+      watched_by_content: watched_videos
+    })
+    localStorage.setItem("watched_by_content", JSON.stringify(watched_videos));
   }
 
   remove_subscription(source_id) {
@@ -263,7 +256,7 @@ class PlaylistForm extends Component {
               this.remove_from_watched(source_info.content_id, x);
             }}
             add_all_to_watched={x => {
-              this.add_all_to_watched(x);
+              this.add_all_to_watched(source_info.content_id, x);
             }}
           />
         </div>
