@@ -108,25 +108,30 @@ class PlaylistForm extends Component {
   }
 
   add_all_to_watched(content_id, video_ids) {
-    let watched_videos = this.state.watched.slice();
+    // TODO : use new storage, not old.  Make it work e.g. update components.  Atm doesn't bother
+    let watched = this.state.watched_by_content;
+    let watched_videos = watched[content_id];
     watched_videos = watched_videos.concat(video_ids);
+    watched[content_id] = uniq(watched_videos);
     this.setState({
-      watched: uniq(watched_videos)
+      watched_by_content: watched
     });
   }
 
   remove_from_watched(content_id, video_id) {
-    let watched_videos = this.state.watched.slice();
-    let update_watched_videos = watched_videos.filter(function(e) {
-      return e !== video_id;
-    });
-    this.setState({
-      watched: update_watched_videos
-    });
-    localStorage.setItem(
-      "watched",
-      JSON.stringify(uniq(update_watched_videos))
-    );
+    if(this.state.watched.includes(video_id)){
+      let watched_videos = this.state.watched.slice();
+      let update_watched_videos = watched_videos.filter(function(e) {
+        return e !== video_id;
+      });
+      this.setState({
+        watched: update_watched_videos
+      });
+      localStorage.setItem(
+        "watched",
+        JSON.stringify(uniq(update_watched_videos))
+      );
+    }
     this.remove_from_watched_new(content_id, video_id);
   }
 
