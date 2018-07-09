@@ -91,7 +91,7 @@ class PlaylistForm extends Component {
     };
     this.state.playlists = retrieve_from_local_storage("sources");
     this.state.watched = retrieve_from_local_storage("watched");
-    this.state.watched_by_content = retrieve_from_local_storage("watched_by_content");
+    this.state.watched_by_content = retrieve_object_from_local_storage("watched_by_content");
   }
 
   add_to_watched(content_id, video_id) {

@@ -55,6 +55,20 @@ function retrieve_from_local_storage(key) {
   }
 }
 
+function retrieve_object_from_local_storage(key) {
+  try {
+    const tokens = localStorage.getItem(key);
+    if (tokens !== null) {
+      return JSON.parse(tokens);
+    }
+    return {};
+  } catch (e) {
+    console.log(e.message);
+    return {};
+  }
+}
+
+
 function is_video_watched(content_id, video_id) {
   const watched_videos = retrieve_from_local_storage("watched");
   const watched_videos_by_content = retrieve_from_local_storage("watched_by_content");
