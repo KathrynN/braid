@@ -47,6 +47,7 @@ export default class VideoColumn extends Component {
     let videos;
     if (this.state.content.length > 0) {
       let content = this.state.content;
+      console.log(content);
       const contentVideoComponents = this.convert_list_of_ids_to_thumbnails(
         content
       );
@@ -105,8 +106,9 @@ export default class VideoColumn extends Component {
   }
 
   mark_all_as_watched() {
+
     this.props.add_all_to_watched(
-      this.state.content.map(x => x.snippet.resourceId.videoId)
+      this.state.content.map(x => this.get_video_id(x))
     );
   }
 
