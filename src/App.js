@@ -114,6 +114,9 @@ class PlaylistForm extends Component {
 
   remove_from_watched_new(content_id, video_id) {
     let watched_videos = this.state.watched2;
+    if(watched_videos.content_id === undefined) {
+      watched_videos.content_id = []
+    }
     let update_watched_videos = watched_videos.content_id.filter(function(e) {
       return e !== video_id;
     });
@@ -129,7 +132,6 @@ class PlaylistForm extends Component {
     this.setState({
       watched: uniq(watched_videos)
     });
-    localStorage.setItem("watched", JSON.stringify(uniq(watched_videos)));
   }
 
   remove_from_watched(content_id, video_id) {

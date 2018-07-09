@@ -47,7 +47,6 @@ export default class VideoColumn extends Component {
     let videos;
     if (this.state.content.length > 0) {
       let content = this.state.content;
-      console.log(content);
       const contentVideoComponents = this.convert_list_of_ids_to_thumbnails(
         content
       );
@@ -219,7 +218,7 @@ export default class VideoColumn extends Component {
       type: "video"
     };
     result.video_id = this.get_video_id(data_items);
-    result.watched = is_video_watched(result.video_id);
+    result.watched = is_video_watched(this.props.content_id, result.video_id);
     return result;
   }
 
@@ -242,7 +241,7 @@ export default class VideoColumn extends Component {
     let content = playlist_items;
     if (retrieve_from_local_storage("hide_watched") === true) {
       content = content.filter(e => {
-        return !is_video_watched(this.get_video_id(e));
+        return !is_video_watched(this.props.content_id, this.get_video_id(e));
       });
     }
     return content.map(json_for_me => {
