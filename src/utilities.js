@@ -57,7 +57,8 @@ function retrieve_from_local_storage(key) {
 
 function is_video_watched(content_id, video_id) {
   const watched_videos = retrieve_from_local_storage("watched");
-  return watched_videos.includes(video_id);
+  const watched_videos_by_content = retrieve_from_local_storage("watched_by_content");
+  return watched_videos_by_content[content_id].includes(video_id) || watched_videos.includes(video_id);
 }
 
 export {
