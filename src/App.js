@@ -86,7 +86,8 @@ class PlaylistForm extends Component {
       playlists: [],
       queue: [],
       watched: [],
-      error: ""
+      error: "",
+      watched2: {}
     };
     this.state.playlists = retrieve_from_local_storage("sources");
     this.state.watched = retrieve_from_local_storage("watched");
@@ -99,6 +100,27 @@ class PlaylistForm extends Component {
       watched: uniq(watched_videos)
     });
     localStorage.setItem("watched", JSON.stringify(uniq(watched_videos)));
+    this.add_to_watched_new(content_id, video_id);
+  }
+
+  add_to_watched_new(content_id, video_id) {
+    let watched_videos = this.state.watched2;
+    if(watched_videos.content_id === undefined) {
+      watched_videos.content_id = []
+    }
+    watched_videos.content_id.push(video_id);
+    watched_videos.content_id = uniq(watched_videos.content_id)
+  }
+
+  remove_from_watched_new(content_id, video_id) {
+    let watched_videos = this.state.watched2;
+    let update_watched_videos = watched_videos.content_id.filter(function(e) {
+      return e !== video_id;
+    });
+    watched_videos.content_id = update_watched_videos;
+    this.setState({
+      watched2: watched_videos
+    })
   }
 
   add_all_to_watched(video_ids) {
@@ -110,7 +132,7 @@ class PlaylistForm extends Component {
     localStorage.setItem("watched", JSON.stringify(uniq(watched_videos)));
   }
 
-  remove_from_watched(video_id) {
+  remove_from_watched(content_id, video_id) {
     let watched_videos = this.state.watched.slice();
     let update_watched_videos = watched_videos.filter(function(e) {
       return e !== video_id;
@@ -122,6 +144,7 @@ class PlaylistForm extends Component {
       "watched",
       JSON.stringify(uniq(update_watched_videos))
     );
+    this.remove_from_watched_new(content_id, video_id);
   }
 
   remove_subscription(source_id) {
@@ -232,7 +255,7 @@ class PlaylistForm extends Component {
               this.add_to_watched(source_info.content_id, x);
             }}
             remove_from_watched={x => {
-              this.remove_from_watched(x);
+              this.remove_from_watched(source_info.content_id, x);
             }}
             add_all_to_watched={x => {
               this.add_all_to_watched(x);
