@@ -84,6 +84,7 @@ function is_video_watched(content_id, video_id) {
 export {
   is_video_watched,
   retrieve_from_local_storage,
+  retrieve_object_from_local_storage,
   generateJSONRequestForChannel,
   generateJSONRequestForPlaylist,
   generateJSONRequestForUserRecentUploads,

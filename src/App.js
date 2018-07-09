@@ -4,7 +4,7 @@ import VideoColumn from "./VideoColumn";
 import YoutubeBigPlayer from "./YoutubeBigPlayer";
 import { Button, Glyphicon } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
-import { uniq, retrieve_from_local_storage } from "./utilities";
+import { uniq, retrieve_from_local_storage, retrieve_object_from_local_storage } from "./utilities";
 import "bootstrap/dist/css/bootstrap-theme.css";
 import "react-flexview/lib/flexView.css";
 import FlexView from "react-flexview";
