@@ -87,10 +87,11 @@ class PlaylistForm extends Component {
       queue: [],
       watched: [],
       error: "",
-      watched2: {}
+      watched_by_content: {}
     };
     this.state.playlists = retrieve_from_local_storage("sources");
     this.state.watched = retrieve_from_local_storage("watched");
+    this.state.watched_by_content = retrieve_from_local_storage("watched_by_content");
   }
 
   add_to_watched(content_id, video_id) {
@@ -104,26 +105,28 @@ class PlaylistForm extends Component {
   }
 
   add_to_watched_new(content_id, video_id) {
-    let watched_videos = this.state.watched2;
-    if(watched_videos.content_id === undefined) {
-      watched_videos.content_id = []
+    let watched_videos = this.state.watched_by_content;
+    if(watched_videos[content_id] === undefined) {
+      watched_videos[content_id] = []
     }
-    watched_videos.content_id.push(video_id);
-    watched_videos.content_id = uniq(watched_videos.content_id)
+    watched_videos[content_id].push(video_id);
+    watched_videos[content_id] = uniq(watched_videos[content_id])
+    localStorage.setItem("watched_by_content", JSON.stringify(watched_videos));
   }
 
   remove_from_watched_new(content_id, video_id) {
-    let watched_videos = this.state.watched2;
-    if(watched_videos.content_id === undefined) {
-      watched_videos.content_id = []
+    let watched_videos = this.state.watched_by_content;
+    if(watched_videos[content_id] === undefined) {
+      return;
     }
-    let update_watched_videos = watched_videos.content_id.filter(function(e) {
+    let update_watched_videos = watched_videos[content_id].filter(function(e) {
       return e !== video_id;
     });
-    watched_videos.content_id = update_watched_videos;
+    watched_videos[content_id] = update_watched_videos;
     this.setState({
-      watched2: watched_videos
+      watched_by_content: watched_videos
     })
+    localStorage.setItem("watched_by_content", JSON.stringify(watched_videos));
   }
 
   add_all_to_watched(video_ids) {
