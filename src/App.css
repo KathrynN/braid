@@ -39,8 +39,8 @@ body {
 }
 
 #big_youtube_player {
-  width: calc(70vh *  1.777777778 );
-  height: 70vh;
+  width: calc(85vh *  1.777777778 );
+  height: 85vh;
 }
 
 p {
